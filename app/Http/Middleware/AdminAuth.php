@@ -9,13 +9,13 @@ class AdminAuth
 {
     public function handle(Request $request, Closure $next)
     {
-        // Check if admin is authenticated
+        // Kontroluje jestli je admin prihlaseny
         if (!session('admin_id')) {
-            // Redirect to login if admin is not authenticated
-            return redirect('/admin/dashboard')->withErrors(['loginError' => 'Please log in as an admin to access this page.']);
+            // Presmerovani k prihlaseni, pokud admin neni zalogovany
+            return redirect('/admin')->withErrors(['loginError' => 'Prosim prihlaste se pro pokracovani']);
         }
 
-        // Allow the request to proceed if authenticated
+        // Pokracovat pokud se user zaloguje
         return $next($request);
     }
 }

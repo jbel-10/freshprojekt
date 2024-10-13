@@ -29,20 +29,20 @@ class AuthController extends Controller
             // Uloz ID admina 
             session(['admin_id' => $admin->id]);
 
-            // Redirect to the admin dashboard or another page
+            // Presmerovani na dashboard
             return redirect()->route('pages.admindashboard')->with('success', 'Prihlaseni uspesne');
         } else {
-            // Return back with an error if the credentials are wrong
+            // Chyba pri nespravynch prihlasovacich udajich
             return back()->withErrors(['loginError' => 'Nespravne prihlasovaci udaje.']);
         }
     }
 
     public function logout(Request $request)
     {
-        // Remove the admin session (log the admin out)
+        // Odhlaseni 
         $request->session()->forget('admin_id');
 
-        // Redirect to the login page
+        // Presmerovani na login page
         return redirect('/admin')->with('success', 'Odhlaseni probehlo uspesne.');
     }
 }
