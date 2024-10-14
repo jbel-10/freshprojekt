@@ -1,46 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Models;
 
-use Illuminate\Http\Request;
-use App\Models\Post; 
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class PostController extends Controller
+class Admin extends Model
 {
-    public function store(Request $request)
+    use HasFactory;
+
+    protected $fillable = [
+        'username', 'password', 'last_login_at', 'last_login_ip', 'status'
+    ];
+
+    // Relationship with posts (if an admin has many posts)
+    public function posts()
     {
-        // Over request
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'category' => 'required|string',
-            'main_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'content' => 'required|string',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        // Nahrani hlavni fotky
-        $mainPhotoPath = $request->file('main_photo') ? $request->file('main_photo')->store('photos', 'public') : null;
-
-        // Nahrani fotek patricich k clanku
-        $additionalImages = [];
-        if ($request->hasfile('images')) {
-            foreach ($request->file('images') as $image) {
-                $additionalImages[] = $image->store('photos', 'public');
-            }
-        }
-
-        // Vyvoreni postu
-        Post::create([
-            'admin_id' => auth()->user()->id, 
-            'title' => $request->title,
-            'category' => $request->category,
-            'content' => $request->content,
-            'main_photo' => $mainPhotoPath,
-            'images' => json_encode($additionalImages),
-        ]);
-
-        // Presmerovani po pridani prispevku
-        return redirect()->route('admin.dashboard')->with('success', 'Post created successfully!');
+        return $this->hasMany(Post::class);
     }
 }
