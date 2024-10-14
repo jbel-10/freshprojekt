@@ -7,9 +7,15 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
+<header class="w-full bg-red-500 text-white">
+  <nav class="w-full flex justify-center py-6">
+    <ul class="flex space-x-10 text-white text-xl font-medium">
+      <li><a href="/prispevek">Vytvoreni prispevku</a></li>
+  </nav>
+</header>
     <div class="min-h-screen flex flex-col justify-center items-center">
-        <h1 class="text-4xl font-bold mb-6">Welcome to the Admin Dashboard</h1>
-        <p class="text-lg">This is a secure section of the site only accessible to logged-in admins.</p>
+        <h1 class="text-4xl font-bold mb-6">Vitejte na admin strance</h1>
+        <p class="text-lg">Tato sekce je pristupna pouze admin uzivatelum.</p>
 
         <!-- Logout Button -->
         <form action="{{ route('admin.logout') }}" method="POST" class="mt-6">

@@ -26,6 +26,12 @@ class AuthController extends Controller
         
         // Pokud najdes admina, zkontroluj heslo
         if ($admin && Hash::check($request->password, $admin->password)) {
+
+            // updatovani admins tabulky 
+            $admin->last_login_at = now();  
+            $admin->last_login_ip = $request->ip(); 
+            $admin->save();
+
             // Uloz ID admina 
             session(['admin_id' => $admin->id]);
 
