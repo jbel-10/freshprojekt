@@ -37,11 +37,13 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.log
 
 Route::view('/poprvedojaponska','pages.poprvedojaponska');
 
-Route::get('/{category}', [PostController::class, 'category'])->name('posts.category');
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+
+Route::get('/{category}', [PostController::class, 'category'])
+    ->where('category', 'jidlo|vylety|popkultura|kultura|cestovatelsketipy|ostatni')
+    ->name('posts.category');
 
 Route::get('/{category}/{id}', [PostController::class, 'show'])->name('post.show');
-
-Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
 
 

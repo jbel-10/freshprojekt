@@ -3,21 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title')</title> <!-- This will allow each page to set its own title -->
     @vite('resources/css/app.css')
 </head>
-<body class="font-serif">
-
+<body class="font-serif min-h-screen flex flex-col">
+    
     <!-- Header -->
-    @include('layouts.header')
+    @include('layouts.partials.header')
 
     <!-- Page-specific content -->
-    <div class="container mx-auto py-8">
+    <div class="flex-grow">
         @yield('content')
     </div>
 
     <!-- Footer -->
-    @include('layouts.footer')
+    @include('layouts.partials.footer')
 
 </body>
 </html>

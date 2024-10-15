@@ -3,7 +3,7 @@
   <nav class="w-full flex justify-center py-6">
     <ul class="flex space-x-10 text-white text-xl font-medium">
       <li><a href="/">Domů</a></li>
-      <li><a href="poprvedojaponska">Poprvé do Japonska</a></li>
+      <li><a href="{{ url('/poprvedojaponska') }}">Poprvé do Japonska</a></li>
 
       <!-- Drop-down Menu pro Články -->
       <li class="relative group">
