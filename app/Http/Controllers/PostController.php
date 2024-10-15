@@ -70,6 +70,7 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+
         try {
             // Overeni requestu
             $request->validate([

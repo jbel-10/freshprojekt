@@ -17,7 +17,7 @@
         <h1 class="text-4xl font-bold mb-6">Vitejte na admin strance</h1>
         <p class="text-lg">Tato sekce je pristupna pouze admin uzivatelum.</p>
 
-        <!-- Logout Button -->
+        <!-- Logout tlacitko -->
         <form action="{{ route('admin.logout') }}" method="POST" class="mt-6">
             @csrf
             <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Odhlásit se</button>

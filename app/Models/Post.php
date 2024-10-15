@@ -18,6 +18,7 @@ class Post extends Model
         'images'
     ];
 
+    // Vztak k adminovi
     public function admin()
     {
         return $this->belongsTo(Admin::class);

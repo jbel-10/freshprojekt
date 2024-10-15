@@ -13,7 +13,7 @@
           <li><a href="/vylety" class="hover:text-red-300">Výlety</a></li>
           <li><a href="/popkultura" class="hover:text-red-300">Popkultura</a></li>
           <li><a href="/kultura" class="hover:text-red-300">Kultura</a></li>
-          <li><a href="/cestovatelsketipy" class="hover:text-red-300">Cestovatelské tipy</a></li>
+          <li><a href="/tipy" class="hover:text-red-300">Tipy</a></li>
           <li><a href="/ostatni" class="hover:text-red-300">Ostatní</a></li>
         </ul>
       </li>

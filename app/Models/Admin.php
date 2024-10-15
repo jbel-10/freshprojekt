@@ -13,7 +13,7 @@ class Admin extends Model
         'username', 'password', 'last_login_at', 'last_login_ip', 'status'
     ];
 
-    // Relationship with posts (if an admin has many posts)
+    // Vztah k posts
     public function posts()
     {
         return $this->hasMany(Post::class);

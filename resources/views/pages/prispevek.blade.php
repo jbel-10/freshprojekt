@@ -51,7 +51,7 @@
                     <option value="vylety">vylety</option>
                     <option value="popkultura">popkultura</option>
                     <option value="kultura">kultura</option>
-                    <option value="cestovatelsketipy">cestovatelsketipy</option>
+                    <option value="tipy">tipy</option>
                     <option value="ostatni">ostatni</option>
                 </select>
             </div>

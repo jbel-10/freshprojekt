@@ -40,7 +40,7 @@ Route::view('/poprvedojaponska','pages.poprvedojaponska');
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
 Route::get('/{category}', [PostController::class, 'category'])
-    ->where('category', 'jidlo|vylety|popkultura|kultura|cestovatelsketipy|ostatni')
+    ->where('category', 'jidlo|vylety|popkultura|kultura|tipy|ostatni')
     ->name('posts.category');
 
 Route::get('/{category}/{id}', [PostController::class, 'show'])->name('post.show');

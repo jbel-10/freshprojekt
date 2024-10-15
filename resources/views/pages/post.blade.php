@@ -13,13 +13,13 @@
             <h1 class="text-5xl text-white mb-4">{{ $post->title }}</h1>
             
             <!-- Autor a datum -->
-            <p class="text-xl text-gray-300">
-                By {{ $post->admin->username }} · {{ $post->created_at->locale('cs')->translatedFormat('j. F Y') }}
+            <p class="text-xl text-white">
+               Autor: {{ $post->admin->username }} · {{ $post->created_at->locale('cs')->translatedFormat('j. F Y') }}
             </p>
         </div>
     </main>
 
-    <!-- Post Content -->
+    <!-- Obsah postu -->
     <div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div class="prose max-w-full text-gray-800 leading-relaxed">
             {!! nl2br(e($post->content)) !!}

@@ -33,7 +33,7 @@
                     <!-- Jmeno autora a datum pridani prispevku -->
                     <p class="pt-2 text-xs font-medium">
                         <a href="#" class="mr-1 underline">{{ $post->admin->username }}</a>
-                        <span class="mx-1">· {{ $post->created_at->format('F j, Y') }}</span>
+                        <span class="mx-1">· {{ $post->created_at->locale('cs')->translatedFormat('j. F Y') }}</span>
                     </p>
                 </div>
             @endforeach
