@@ -10,6 +10,31 @@
     <div class="min-h-screen flex flex-col justify-center items-center">
         <h1 class="text-4xl font-bold mb-6">Vytvorit novy prispevek</h1>
 
+        <!-- Zobraz zpravu pro success-->
+        @if (session('success'))
+            <div class="bg-green-500 text-white p-4 rounded-lg mb-6">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <!-- Zobraz zpravu pro error -->
+        @if (session('error'))
+            <div class="bg-red-500 text-white p-4 rounded-lg mb-6">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <!-- Zobraz chybu v pripade problemu -->
+        @if ($errors->any())
+            <div class="bg-red-500 text-white p-4 rounded-lg mb-6">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data" class="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
             @csrf
 
@@ -35,7 +60,7 @@
             <!-- Nahledova fotka -->
             <div class="mb-4">
                 <label class="block text-gray-700 font-bold mb-2" for="main_photo">Nahledova fotka</label>
-                <input type="file" name="main_photo" id="main_photo" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <input type="file" name="main_photo" id="main_photo" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
             </div>
 
             <!-- Obsah prispevku -->

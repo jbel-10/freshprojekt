@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminAuth;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\NewsletterController;
 
 Route::get('/admin',[AuthController::class,'show']);
 
@@ -13,8 +14,6 @@ Route::post('/admin',[AuthController::class,'login']);
 Route::view('/','pages.index');
 
 Route::get('/', [PostController::class, 'index']);
-
-Route::get('/', [PostController::class, 'fotkyzcest']);
 
 
 
@@ -41,6 +40,8 @@ Route::view('/poprvedojaponska','pages.poprvedojaponska');
 Route::get('/{category}', [PostController::class, 'category'])->name('posts.category');
 
 Route::get('/{category}/{id}', [PostController::class, 'show'])->name('post.show');
+
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
 
 

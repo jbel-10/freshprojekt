@@ -79,41 +79,39 @@
     </div>
 </div>
 
-<!-- Section for random images -->
-<section class="py-8" x-data="imageRotation()">
-        <h2 class="text-2xl font-bold mb-6">Fotky z cest</h2>
-        
-        <!-- Grid of images -->
-        <div class="grid grid-cols-3 gap-4">
-            <template x-for="(image, index) in images" :key="index">
-                <div>
-                    <img :src="image" alt="Rotating Image" class="w-full h-auto object-cover rounded-lg shadow-md">
-                </div>
-            </template>
-        </div>
-    </section>
+<!-- Formular na newsletter -->
+<div class="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto mt-10">
+    <h2 class="text-2xl font-bold mb-4 text-center">Přihlaste se k našemu newlsetteru.</h2>
 
-    <script>
-        function fotkyzcest() {
-            return {
-                images: @json($selectedImages), // This injects the images from the controller
-                startRotation() {
-                    setInterval(() => {
-                        this.shuffleImages();
-                    }, 30000); // Change images every 30 seconds
-                },
-                shuffleImages() {
-                    this.images = this.images.sort(() => Math.random() - 0.5); // Shuffle images array
-                },
-                init() {
-                    this.startRotation();
-                }
-            };
-        }
-    </script>
+    <!-- Success vs error  -->
+    @if (session('success'))
+        <div class="bg-green-500 text-white p-4 rounded-lg mb-4">
+            {{ session('success') }}
+        </div>
+    @elseif (session('error'))
+        <div class="bg-red-500 text-white p-4 rounded-lg mb-4">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <!-- Formular -->
+    <form action="{{ route('newsletter.subscribe') }}" method="POST" class="flex flex-col space-y-4">
+        @csrf
+        <input type="email" name="email" placeholder="Enter your email" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
+        
+        <!-- Validace -->
+        @if ($errors->has('email'))
+            <span class="text-red-500">{{ $errors->first('email') }}</span>
+        @endif
+
+        <button type="submit" class="bg-red-500 text-white p-3 rounded-lg hover:bg-blue-600">
+            Přihlásit se
+        </button>
+    </form>
+</div>
 
 <!-- Footer -->
-<footer class="bg-gray-600 py-6 w-full left-0">
+<footer class="bg-red-500 py-6 w-full left-0">
   <div class="w-full flex justify-between items-center px-4 text-white">
     
     <!-- Copyright Sekce -->

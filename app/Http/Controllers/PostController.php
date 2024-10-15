@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post; 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 
@@ -12,13 +13,14 @@ class PostController extends Controller
 
     public function fotkyzcest()
     {
-        // Fetch all posts to get the additional images from all posts
+        // Vem vsechny fotky v additional images
         $allPosts = Post::all();
         $allImages = [];
     
         foreach ($allPosts as $post) {
             if ($post->images) {
-                // Decode the JSON array of images
+                
+                // Dekoduj z JSON formatu
                 $images = json_decode($post->images);
                 foreach ($images as $image) {
                     $allImages[] = $image;
@@ -26,24 +28,24 @@ class PostController extends Controller
             }
         }
     
-        // Shuffle the images array to get a random order
+        // Zamichej fotky
         shuffle($allImages);
     
-        // Take the first 9 random images
-        $selectedImages = array_slice($allImages, 0, 9);
+        // Vem prvnich devet ze seznamu
+        $vybraneFotky = array_slice($allImages, 0, 9);
     
-        // Return the view with the selected images
-        return view('pages.index', compact('selectedImages'));
+        // Vrat view a zobraz je na strance
+        return view('pages.index', compact('vybraneFotky'));
     }
     
 
 
     public function index()
     {
-    // Get the latest 9 posts
-    $posts = Post::orderBy('created_at', 'desc')->take(9)->get();
+    // Vyhledej 9 nejnovejsich postu
+    $posts = Post::orderBy('created_at', 'desc')->take(6)->get();
 
-    // Return view with the posts
+    // Vrat view
     return view('pages.index', compact('posts'));
     }
 
@@ -60,7 +62,7 @@ class PostController extends Controller
     public function category($category)
     {
         // Ziskani postu pro danou kategorii
-        $posts = Post::where('category', $category)->orderBy('created_at', 'desc')->paginate(10);
+        $posts = Post::where('category', $category)->orderBy('created_at', 'desc')->paginate(9);
 
         // Ukazani postu
         return view('pages.category', compact('posts', 'category'));
@@ -68,38 +70,43 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        // Overeni prispevku 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'category' => 'required|string',
-            'main_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
-            'content' => 'required|string',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
-        ]);
-
-        // Nahrani nahledove fotky
-        $mainPhotoPath = $request->file('main_photo') ? $request->file('main_photo')->store('photos', 'public') : null;
-
-        // Nahrani dalsich fotek 
-        $additionalImages = [];
-        if ($request->hasfile('images')) {
-            foreach ($request->file('images') as $image) {
-                $additionalImages[] = $image->store('photos', 'public');
+        try {
+            // Overeni requestu
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'category' => 'required|string',
+                'main_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:10240',
+                'content' => 'required|string',
+            ]);
+    
+            // Nahraj nahledovou fotku
+            $mainPhotoPath = $request->file('main_photo') ? $request->file('main_photo')->store('photos', 'public') : null;
+    
+            // Nahraj dalsi fotky
+            $additionalImages = [];
+            if ($request->hasfile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $additionalImages[] = $image->store('photos', 'public');
+                }
             }
+    
+            // Vytvor prispevek
+            Post::create([
+                'admin_id' => session('admin_id'),
+                'title' => $request->title,
+                'category' => $request->category,
+                'content' => $request->content,
+                'main_photo' => $mainPhotoPath,
+                'images' => json_encode($additionalImages),  
+            ]);
+    
+            // Pokud vse probehlo spravne, potvrd
+            return redirect()->back()->with('success', 'Prispevek byl uspesne vytvoren!');
+
+        } catch (\Exception $e) {
+
+        // Pokud nastane chyba, ukaz ji na screenu
+        return redirect()->back()->with('error', $e->getMessage());
         }
-
-        // Vytvoreni postu
-        Post::create([
-            'admin_id' => session('admin_id'),
-            'title' => $request->title,
-            'category' => $request->category,
-            'content' => $request->content,
-            'main_photo' => $mainPhotoPath,
-            'images' => json_encode($additionalImages),  
-        ]);
-
-        // Redirect back with a success message
-        return redirect()->route('pages.admindashboard')->with('success', 'Post created successfully!');
     }
 }
-
