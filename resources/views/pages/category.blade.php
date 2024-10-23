@@ -10,12 +10,11 @@
             @foreach ($posts as $post)
                 <div class="flex flex-col items-start col-span-12 space-y-3 sm:col-span-6 xl:col-span-4">
                     <!-- Nahledova fotka -->
-                    @if ($post->main_photo)
                         <a href="{{ url("/$category/{$post->id}") }}" class="block">
                             <img class="object-cover w-full mb-2 overflow-hidden rounded-lg shadow-sm max-h-56" 
                             src="{{ asset('storage/' . $post->main_photo) }}" alt="{{ $post->title }}">
                         </a>
-                    @endif
+                
 
                     <!-- Kategorie postu -->
                     <div class="bg-gray-500 flex items-center px-3 py-1.5 leading-none rounded-full text-xs font-medium uppercase text-white inline-block">

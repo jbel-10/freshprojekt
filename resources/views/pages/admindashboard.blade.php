@@ -10,12 +10,12 @@
 <header class="w-full bg-red-500 text-white">
   <nav class="w-full flex justify-center py-6">
     <ul class="flex space-x-10 text-white text-xl font-medium">
-      <li><a href="/prispevek">Vytvoreni prispevku</a></li>
+      <li><a href="/prispevek">Vytvoření příspěvku</a></li>
   </nav>
 </header>
     <div class="min-h-screen flex flex-col justify-center items-center">
-        <h1 class="text-4xl font-bold mb-6">Vitejte na admin strance</h1>
-        <p class="text-lg">Tato sekce je pristupna pouze admin uzivatelum.</p>
+        <h1 class="text-4xl font-bold mb-6">Vitejte na admin stránce.</h1>
+        <p class="text-lg">Tato sekce je přístupná pouze admin uživatelům.</p>
 
         <!-- Logout tlacitko -->
         <form action="{{ route('admin.logout') }}" method="POST" class="mt-6">

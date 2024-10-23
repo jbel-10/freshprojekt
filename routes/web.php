@@ -7,15 +7,14 @@ use App\Http\Middleware\AdminAuth;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\NewsletterController;
 
-Route::get('/admin',[AuthController::class,'show']);
 
 Route::post('/admin',[AuthController::class,'login']);
+
+Route::get('/admin',[AuthController::class,'show']);
 
 Route::view('/','pages.index');
 
 Route::get('/', [PostController::class, 'index']);
-
-
 
 Route::get('/admindashboard', function () {
     // Over zda je admin zalogovan

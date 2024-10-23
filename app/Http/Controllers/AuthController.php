@@ -36,10 +36,10 @@ class AuthController extends Controller
             session(['admin_id' => $admin->id]);
 
             // Presmerovani na dashboard
-            return redirect()->route('pages.admindashboard')->with('success', 'Prihlaseni uspesne');
+            return redirect()->route('pages.admindashboard')->with('success', 'Přihlášení úspěšné.');
         } else {
             // Chyba pri nespravynch prihlasovacich udajich
-            return back()->withErrors(['loginError' => 'Nespravne prihlasovaci udaje.']);
+            return back()->withErrors(['loginError' => 'Nesprávné přihlašovací údaje.']);
         }
     }
 
@@ -49,6 +49,6 @@ class AuthController extends Controller
         $request->session()->forget('admin_id');
 
         // Presmerovani na login page
-        return redirect('/admin')->with('success', 'Odhlaseni probehlo uspesne.');
+        return redirect('/admin')->with('success', 'Odhlášení proběhlo úspěšně.');
     }
 }

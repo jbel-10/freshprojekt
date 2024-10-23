@@ -15,7 +15,7 @@
     <div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold mb-6">Nejnovější příspěvky</h2>
 
-        <!-- Grid s posty na 3x3 -->
+        <!-- Grid s posty na 2x3 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ($posts as $post)
                 <div class="flex flex-col items-start space-y-3">
@@ -49,6 +49,101 @@
         </div>
     </div>
 
+    <div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8" x-data="gridfotky()" x-init="rotuj()">
+    <h2 class="text-3xl font-bold mb-6">Fotky z cest</h2>
+    <div class="grid grid-cols-3 gap-4">
+        <!-- Grid s 9 fotkami -->
+        <template x-for="(image, index) in zobrazeneFotky" :key="index">
+            <div class="relative overflow-hidden cursor-pointer" @click="otevriModal(image)">
+                <img :src="image" alt="Picture" class="w-full h-48 object-cover rounded-lg">
+            </div>
+        </template>
+    </div>
+
+    <!-- Modal -->
+    <div x-show="jeModalOtevreny" x-transition.opacity class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-70" 
+        @keydown.window.escape="zavriModal" 
+        style="display: none;">
+        <div class="relative bg-white rounded-lg shadow-lg overflow-hidden max-w-3xl w-full p-4">
+            <!-- Close Button -->
+            <button class="absolute top-4 right-4 text-gray-700 hover:text-gray-900" @click="zavriModal">&times;</button>
+            <!-- Full-size Image -->
+            <img :src="vybranaFotka" alt="Full-size image" class="w-full h-auto object-contain">
+        </div>
+    </div>
+</div>
+
+<script>
+    function gridfotky() {
+        return {
+            // List s fotkami
+            obrazky: [
+                '{{ asset("obrazky/pic1.jpeg") }}', 
+                '{{ asset("obrazky/pic2.jpeg") }}',
+                '{{ asset("obrazky/pic3.jpeg") }}',
+                '{{ asset("obrazky/pic4.jpeg") }}',
+                '{{ asset("obrazky/pic5.jpeg") }}',
+                '{{ asset("obrazky/pic6.jpeg") }}',
+                '{{ asset("obrazky/pic7.jpeg") }}',
+                '{{ asset("obrazky/pic8.jpeg") }}',
+                '{{ asset("obrazky/pic9.jpeg") }}',
+                '{{ asset("obrazky/pic10.jpeg") }}',
+                '{{ asset("obrazky/pic11.jpeg") }}',
+                '{{ asset("obrazky/pic12.jpeg") }}',
+                '{{ asset("obrazky/pic13.jpeg") }}',
+                '{{ asset("obrazky/pic14.jpeg") }}',
+                '{{ asset("obrazky/pic15.jpeg") }}',
+                '{{ asset("obrazky/pic16.jpeg") }}',
+                '{{ asset("obrazky/pic17.jpeg") }}',
+                '{{ asset("obrazky/pic18.jpeg") }}',
+                '{{ asset("obrazky/pic19.jpeg") }}',
+                '{{ asset("obrazky/pic20.jpeg") }}',
+                '{{ asset("obrazky/pic21.jpeg") }}',
+                '{{ asset("obrazky/pic22.jpeg") }}',
+                '{{ asset("obrazky/pic23.jpeg") }}',
+                '{{ asset("obrazky/pic24.jpeg") }}',
+                '{{ asset("obrazky/pic25.jpeg") }}',
+                '{{ asset("obrazky/pic26.jpeg") }}',
+                '{{ asset("obrazky/pic27.jpeg") }}',
+                '{{ asset("obrazky/pic28.jpeg") }}',
+                '{{ asset("obrazky/pic29.jpeg") }}',
+                '{{ asset("obrazky/pic30.jpeg") }}',
+            ],
+            
+            zobrazeneFotky: [], // Momentalne vybrane fotky
+            jeModalOtevreny: false, // Je modal aktivní?
+            vybranaFotka: '', // Otevrena fotka
+
+            // Nahodne vyber fotky
+            nahodneVyberFotky() {
+                let zamichane = [...this.obrazky].sort(() => 0.5 - Math.random());
+                this.zobrazeneFotky = zamichane.slice(0, 9); // Vem prvnich devet
+            },
+
+            // Zmen fotky kazdych 30 vterin
+            rotuj() {
+                this.nahodneVyberFotky(); // Vyber prvnich devet fotek
+                setInterval(() => {
+                    this.nahodneVyberFotky();
+                }, 30000); // 30 vterin
+            },
+
+            // Otevreni modalu
+            otevriModal(image) {
+                this.vybranaFotka = image;
+                this.jeModalOtevreny = true;
+            },
+
+            // Zavreni modalu
+            zavriModal() {
+                this.jeModalOtevreny = false;
+                this.vybranaFotka = '';
+            }
+        }
+    }
+</script>
+
+
     <!-- Formular na newsletter -->
     <div class="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto mt-10">
         <h2 class="text-2xl font-bold mb-4 text-center">Přihlaste se k newlsetteru.</h2>
@@ -67,7 +162,7 @@
         <!-- Formular -->
         <form action="{{ route('newsletter.subscribe') }}" method="POST" class="flex flex-col space-y-4">
             @csrf
-            <input type="email" name="email" placeholder="Enter your email" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
+            <input type="email" name="email" placeholder="Vložte svůj email" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
             
             <!-- Validace -->
             @if ($errors->has('email'))

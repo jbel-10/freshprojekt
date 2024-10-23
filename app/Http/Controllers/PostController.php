@@ -11,38 +11,9 @@ class PostController extends Controller
 
 {
 
-    public function fotkyzcest()
-    {
-        // Vem vsechny fotky v additional images
-        $allPosts = Post::all();
-        $allImages = [];
-    
-        foreach ($allPosts as $post) {
-            if ($post->images) {
-                
-                // Dekoduj z JSON formatu
-                $images = json_decode($post->images);
-                foreach ($images as $image) {
-                    $allImages[] = $image;
-                }
-            }
-        }
-    
-        // Zamichej fotky
-        shuffle($allImages);
-    
-        // Vem prvnich devet ze seznamu
-        $vybraneFotky = array_slice($allImages, 0, 9);
-    
-        // Vrat view a zobraz je na strance
-        return view('pages.index', compact('vybraneFotky'));
-    }
-    
-
-
     public function index()
     {
-    // Vyhledej 9 nejnovejsich postu
+    // Vyhledej 6 nejnovejsich postu
     $posts = Post::orderBy('created_at', 'desc')->take(6)->get();
 
     // Vrat view
@@ -102,7 +73,7 @@ class PostController extends Controller
             ]);
     
             // Pokud vse probehlo spravne, potvrd
-            return redirect()->back()->with('success', 'Prispevek byl uspesne vytvoren!');
+            return redirect()->back()->with('success', 'Příspěvek byl úspěšně vytvořen!');
 
         } catch (\Exception $e) {
 
